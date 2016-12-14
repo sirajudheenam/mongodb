@@ -41,7 +41,9 @@ case node[:platform]
         action :create
       end
 
-      package mongodb-org
+      package 'mongodb-org' do
+        action :install
+      end
 
     end
 
