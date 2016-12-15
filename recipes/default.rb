@@ -6,11 +6,11 @@
 
 case node[:platform]
   when 'redhat','centos'
-    if node['platform']['version'] ~= "6"
+    if node['platform']['version'] == "~6" then
         %w(cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs net-snmp openssl libcurl).each do |pkg|
           package pkg
         end
-    elsif node['platform']['version'] ~= "7"
+    elsif node['platform']['version'] == "~7" then
         %w(cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs lm_sensors-libs net-snmp-agent-libs net-snmp openssl rpm-libs tcp_wrappers-libs libcurl).each do |pkg|
           package pkg
         end
@@ -88,5 +88,3 @@ case node[:platform]
   # SUSE related code comes here
 
 end # ends case platform
-
-
