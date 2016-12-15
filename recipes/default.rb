@@ -16,7 +16,7 @@ case node[:platform]
         end
     end
 
-    log #{node['platform']['version']}
+    log "#{node['platform']['version']}"
 
     if node['mongodb']['edition'] == 'enterprise'
       yum_repository "mongodb-enterprise-#{node[:mongodb][:version]}" do
