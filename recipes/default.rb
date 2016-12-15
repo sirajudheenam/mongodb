@@ -6,16 +6,15 @@
 
 case node[:platform]
   when 'redhat','centos'
-    case node['platform']['version']
-      when "~6"
+    if node['platform']['version'] ~= "6"
         %w(cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs net-snmp openssl libcurl).each do |pkg|
           package pkg
         end
-      when "~7"
+    elsif node['platform']['version'] ~= "7"
         %w(cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs lm_sensors-libs net-snmp-agent-libs net-snmp openssl rpm-libs tcp_wrappers-libs libcurl).each do |pkg|
           package pkg
         end
-      end
+    end
 
     if node['mongodb']['edition'] == 'enterprise'
       yum_repository "mongodb-enterprise-#{node[:mongodb][:version]}" do
