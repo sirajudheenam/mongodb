@@ -6,11 +6,11 @@
 
 case node[:platform]
   when 'redhat','centos'
-    if node['platform']['version'] == "~6" then
+    if node['platform']['version'] == "6" then
         %w(cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs net-snmp openssl libcurl).each do |pkg|
           package pkg
         end
-    elsif node['platform']['version'] == "~7" then
+    elsif node['platform']['version'] == "7" then
         %w(cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs lm_sensors-libs net-snmp-agent-libs net-snmp openssl rpm-libs tcp_wrappers-libs libcurl).each do |pkg|
           package pkg
         end
@@ -47,7 +47,8 @@ case node[:platform]
       end
 
       # Create /var/lib/mongo
-      directory "#{node['mongodb']['data_path']}" do  
+      directory "#{node['mongodb']['data_path']}" do 
+        path node['mongodb']['data_path']
         mode '0755'
         owner 'mongod'
         group 'mongod'
@@ -56,6 +57,7 @@ case node[:platform]
       end
 
       directory "#{node['mongodb']['pid']['path']}" do
+        path node['mongodb']['pid']['path']
         mode '0755'
         owner 'mongod'
         group 'mongod'
