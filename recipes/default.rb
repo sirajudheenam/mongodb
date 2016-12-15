@@ -56,7 +56,7 @@ case node[:platform]
         not_if { ::File.directory?("#{node['mongodb']['data_path']}") } 
       end
 
-      directory "#{node['mongodb']['pid']['path']}" do
+      directory "node['mongodb']['pid']['path']" do
         path node['mongodb']['pid']['path']
         mode '0755'
         owner 'mongod'
