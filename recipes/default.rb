@@ -27,7 +27,9 @@ case node[:platform]
         action :create
       end
 
-      package mongodb-enterprise
+      package 'mongodb-enterprise' do
+        action :install
+      end
 
     end
 
@@ -45,6 +47,37 @@ case node[:platform]
         action :install
       end
 
+      # Create /var/lib/mongo
+      directory "#{node['mongodb']['data_path']}" do  
+        mode '0755'
+        owner 'mongod'
+        group 'mongod'
+        action :create
+        not_if { ::File.directory?("#{node['mongodb']['data_path']}") } 
+      end
+
+      directory "#{node['mongodb']['pid']['path']}" do
+        mode '0755'
+        owner 'mongod'
+        group 'mongod'
+        action :create
+        not_if { ::File.directory?("#{node['mongodb']['pid']['path']}") } 
+      end
+
+      template "#{node['mongodb']['config_file']}" do
+       source 'mongod.conf.erb'
+       variables({
+          :dbpath => node['mongodb']['data_path'],
+          :logpath => node['mongodb']['log_path'],
+          :mongopid => node['mongodb']['pid']['file'],
+          :mongoport => node['mongodb']['port']
+       })
+       mode '0644'
+       owner 'root'
+       group 'root'
+       # notifies :restart, 'service[mongod]'
+      end
+
     end
 
     # Common to all rhel versions
@@ -56,3 +89,5 @@ case node[:platform]
   # SUSE related code comes here
 
 end # ends case platform
+
+
