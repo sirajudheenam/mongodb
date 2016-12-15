@@ -6,11 +6,11 @@
 
 case node[:platform]
   when 'redhat','centos'
-    if ("6.").include?(node['platform']['version']) then
+    if "6".include?(node['platform_version'])
         %w(cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs net-snmp openssl libcurl).each do |pkg|
           package pkg
         end
-    elsif ("7.").include?(node['platform']['version']) then
+    elsif "7".include?(node['platform_version'])
         %w(cyrus-sasl cyrus-sasl-plain cyrus-sasl-gssapi krb5-libs lm_sensors-libs net-snmp-agent-libs net-snmp openssl rpm-libs tcp_wrappers-libs libcurl).each do |pkg|
           package pkg
         end
